@@ -1,0 +1,71 @@
+<%- include('../pembungkus/head.ejs') %>
+<body>
+    <div id="gambar" class="putih">
+        <h3>Upload Gambar</h3>
+        <form action="/gambar" method="post" enctype="multipart/form-data">
+            <div>
+                <input type="file" class="form-control" name="fileUpload">
+                <br>
+                <button type="submit" class="btn btn-primary" value="upload">Upload</button>
+            </div>
+        </form>
+    </div>
+    <div id="fasilitas" class="ungu">
+        <h3>Tambah Fasilitas</h3>
+        <div class="fasilitas row d-flex justify-content-center">
+            <div class="box col col-lg-2">
+                <form action="/hapusFasilitas1" method="post">
+                    <ul>
+                        <% for( let index = 0; index < fasilitas1.length; index++ ) { %>
+                            <li><input type="checkbox" name="btnHapus1" id="btnHapus1" value="<%= index %>" onchange="this.form.submit()"><%= fasilitas1[index] %></li>
+                        <% } %>
+                    </ul>
+                </form>
+                <form action="/fasilitas1" method="post">
+                    <input type="text" class="form-control" name="tambahFasilitas1" id="tambahFasilitas1" autocomplete="off"> <br>
+                    <button type="submit" class="btn btn-primary">Tambah</button>
+            </div>
+            </form>
+            <div class="box col col-lg-2">
+                <form action="/hapusFasilitas2" method="post">
+                    <ul>
+                        <% for( let index = 0; index < fasilitas2.length; index++ ) { %>
+                            <li><input type="checkbox" name="btnHapus2" id="btnHapus2" value="<%= index %>" onchange="this.form.submit()"><%= fasilitas2[index] %></li>
+                        <% } %>
+                    </ul>
+                </form>
+                <form action="/fasilitas2" method="post">
+                    <input type="text" class="form-control" name="tambahFasilitas2" id="tambahFasilitas2" autocomplete="off"> <br>
+                    <button type="submit" class="btn btn-primary">Tambah</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="putih">
+            <h3>Kontak</h3>
+            <div class="kontak row d-flex justify-content-center">
+                <div class="box col col-lg-3.3">
+                    <h4>Email</h4>
+                    <form action="/gantiEmail" method="post">
+                        <input type="text" class="form-control" name="email" id="email" placeholder="<%= email %>" autocomplete="off">
+                        <button type="submit" class="btn btn-primary">Ganti</button>
+                    </form>
+                </div>
+                <div class="box col col-lg-3.3">
+                    <h4>WhatsApp</h4>
+                    <form action="/gantiWa" method="post">
+                        <input type="text" class="form-control" name="whatsApp" id="whatsApp" placeholder="<%= whatsApp %>" autocomplete="off">
+                        <button type="submit" class="btn btn-primary">Ganti</button>
+                    </form>
+                </div>
+                <div class="box col col-lg-3.3">
+                    <h4>Telepon</h4>
+                    <form action="/gantiTelepon" method="post">
+                        <input type="text" class="form-control" name="telepon" id="telepon" placeholder="<%= telepon %>" autocomplete="off">
+                        <button type="submit" class="btn btn-primary">Ganti</button>
+                    </form>
+                </div>
+            </div>
+    </div>
+</body>
+<%- include('../pembungkus/footer.ejs') %>

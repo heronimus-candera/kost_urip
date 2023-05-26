@@ -34,7 +34,8 @@ app.get("/", (req, res) => {
         fasilitas2:fasilitas2,
         email: kontak.email,
         whatsApp: kontak.whatsApp,
-        telepon: kontak.telepon
+        telepon: kontak.telepon,
+        gambar: gambar
     });
 });
 

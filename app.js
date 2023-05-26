@@ -155,7 +155,10 @@ app.post('/gambar', (req, res, next) => {
 });
 
 app.get('/login', (req,res) => {
-    res.render('./login/login.ejs');
+    res.render('./login/login.ejs', {
+        userName: '',
+        password: ''
+    });
 })
 
 app.post('/login', (req, res) => {
@@ -167,6 +170,13 @@ app.post('/login', (req, res) => {
     }
 
     res.redirect('/admin');
+})
+
+app.post('/logout', (req,res) => {
+    user_ = '';
+    pass_ = '';
+
+    res.redirect('/login');
 })
 
 app.listen(port, () => {

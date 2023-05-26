@@ -1,5 +1,8 @@
 <%- include('../pembungkus/head.ejs') %>
 <body>
+    <form action="/logout" method="post">
+        <button type="submit" class="btn btn-success">Log Out</button>
+    </form>
     <div id="gambar" class="putih">
         <h3>Upload Gambar</h3>
         <form action="/gambar" method="post" enctype="multipart/form-data">

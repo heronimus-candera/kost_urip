@@ -20,12 +20,17 @@
     <section class="ungu carousel-padd">
         <div id="foto" class="carousel slide" data-bs-ride="true">
             <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img src="https://drive.google.com/uc?export=view&id=1NepIAcYxGNWQYsWTo--D8ozju_0zeA1b" class="d-block" alt="...">
-                </div>
-                <div class="carousel-item">
-                  <img src="https://shared.cdn.smp.schibsted.com/v2/images/782003a2-5f1d-4ff3-95b1-1c38c4d1d53e?fit=crop&format=auto&h=847&w=1505&s=58f5960b58ab76b277b38eb62877c6f0c888cd60" class="d-block" alt="...">
-                </div>
+                <% for( let index = 0; index < gambar.length; index++ ) { %>
+                    <% if (index === 0) { %>
+                        <div class="carousel-item active">
+                          <img src="<%= gambar[index] %>" class="d-block" alt="...">
+                        </div>
+                    <% } else {%>
+                        <div class="carousel-item">
+                          <img src="<%= gambar[index] %>" class="d-block" alt="...">
+                        </div>
+                    <% } %>
+                <% } %>
                 
               </div>
               <button class="carousel-control-prev" type="button" data-bs-target="#foto" data-bs-slide="prev">

@@ -10,17 +10,27 @@ const fs = require('fs');
 const app = express();
 const port = 3000;
 
-const fasilitas1 = ['Kompor','Kasur','Dapur','Kulkas','WC'];
-const fasilitas2 = ['Meja','Kursi','Lemari','Bantal'];
-const kontak = {email: 'sesuatu@gmail.com',
-whatsApp: '081390608263',
-telepon: '081390608263'};
-const gambar = ["https://drive.google.com/uc?export=view&id=1NepIAcYxGNWQYsWTo--D8ozju_0zeA1b"];
+const fasilitas1 = ['Kompor', 'Kasur', 'Dapur', 'Kulkas', 'WC'];
+const fasilitas2 = ['Meja', 'Kursi', 'Lemari', 'Bantal'];
+const kontak = {
+    email: 'sesuatu@gmail.com',
+    whatsApp: '081390608263',
+    telepon: '081390608263'
+};
+const gambar = [];
 
 const user = 'admin';
 const pass = '1234567';
-let user_ ;
-let pass_ ;
+let user_;
+let pass_;
+let today = new Date();
+let options = {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    minute: "numeric",
+    second: "numeric"
+};
 
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, "public")));
@@ -30,8 +40,8 @@ app.use(bodyParser.urlencoded({
 
 app.get("/", (req, res) => {
     res.render('./user/user.ejs', {
-        fasilitas1 : fasilitas1,
-        fasilitas2:fasilitas2,
+        fasilitas1: fasilitas1,
+        fasilitas2: fasilitas2,
         email: kontak.email,
         whatsApp: kontak.whatsApp,
         telepon: kontak.telepon,
@@ -39,17 +49,18 @@ app.get("/", (req, res) => {
     });
 });
 
-app.get('/admin', (req,res) => {
+app.get('/admin', (req, res) => {
     if (user_ != user && pass_ != pass) {
         return res.send('<h1>User Name atau Kata Sandi Salah</h1><form action="/login" method="get"><button type="submit">Kembali ke Halaman Login</button></form>');
     }
 
     res.render('./admin/admin.ejs', {
-        fasilitas1:fasilitas1,
-        fasilitas2:fasilitas2,
+        fasilitas1: fasilitas1,
+        fasilitas2: fasilitas2,
         email: kontak.email,
         whatsApp: kontak.whatsApp,
-        telepon: kontak.telepon
+        telepon: kontak.telepon,
+        gambar: gambar
     });
 })
 
@@ -63,7 +74,7 @@ app.post('/fasilitas1', (req, res) => {
     res.redirect('/admin');
 })
 
-app.post('/hapusFasilitas1', (req,res) => {
+app.post('/hapusFasilitas1', (req, res) => {
     if (user_ != user && pass_ != pass) {
         return res.send('<h1>User Name atau Kata Sandi Salah</h1><form action="/login" method="get"><button type="submit">Kembali ke Halaman Login</button></form>');
     }
@@ -73,7 +84,7 @@ app.post('/hapusFasilitas1', (req,res) => {
     res.redirect('/admin');
 })
 
-app.post('/hapusFasilitas2', (req,res) => {
+app.post('/hapusFasilitas2', (req, res) => {
     if (user_ != user && pass_ != pass) {
         return res.send('<h1>User Name atau Kata Sandi Salah</h1><form action="/login" method="get"><button type="submit">Kembali ke Halaman Login</button></form>');
     }
@@ -83,7 +94,7 @@ app.post('/hapusFasilitas2', (req,res) => {
     res.redirect('/admin');
 })
 
-app.post('/fasilitas2', (req,res) => {
+app.post('/fasilitas2', (req, res) => {
     if (user_ != user && pass_ != pass) {
         return res.send('<h1>User Name atau Kata Sandi Salah</h1><form action="/login" method="get"><button type="submit">Kembali ke Halaman Login</button></form>');
     }
@@ -93,39 +104,39 @@ app.post('/fasilitas2', (req,res) => {
     res.redirect('/admin')
 })
 
-app.post('/gantiEmail', (req,res) => {
+app.post('/gantiEmail', (req, res) => {
     if (user_ != user && pass_ != pass) {
         return res.send('<h1>User Name atau Kata Sandi Salah</h1><form action="/login" method="get"><button type="submit">Kembali ke Halaman Login</button></form>');
     }
 
     const email_ = req.body.email;
-    if(email_ != ''){
+    if (email_ != '') {
         kontak.email = email_;
         return res.redirect('/admin');
     }
     return res.send('<h1>Email Kosong</h1> <form action="/admin" method="get"><button type="submit">kembali</button></form>')
 })
 
-app.post('/gantiWa', (req,res) => {
+app.post('/gantiWa', (req, res) => {
     if (user_ != user && pass_ != pass) {
         return res.send('<h1>User Name atau Kata Sandi Salah</h1><form action="/login" method="get"><button type="submit">Kembali ke Halaman Login</button></form>');
     }
 
     const whatsApp_ = req.body.whatsApp;
-    if(whatsApp_ != ''){
+    if (whatsApp_ != '') {
         kontak.whatsApp = whatsApp_;
         return res.redirect('/admin');
     }
     return res.send('<h1>WhatsApp Kosong</h1> <form action="/admin" method="get"><button type="submit">kembali</button></form>')
 })
 
-app.post('/gantiTelepon', (req,res) => {
+app.post('/gantiTelepon', (req, res) => {
     if (user_ != user && pass_ != pass) {
         return res.send('<h1>User Name atau Kata Sandi Salah</h1><form action="/login" method="get"><button type="submit">Kembali ke Halaman Login</button></form>');
     }
 
     const telepon_ = req.body.telepon;
-    if(telepon_ != ''){
+    if (telepon_ != '') {
         kontak.telepon = telepon_;
         return res.redirect('/admin');
     }
@@ -136,26 +147,53 @@ app.post('/gambar', (req, res, next) => {
     if (user_ != user && pass_ != pass) {
         return res.send('<h1>User Name atau Kata Sandi Salah</h1><form action="/login" method="get"><button type="submit">Kembali ke Halaman Login</button></form>');
     }
- 
-    const form = new formidable.IncomingForm();  form.parse(req, (err, fields, files) => {
-    const oldPath = files.fileUpload.filepath;
 
-          const newPath = __dirname + '/upload/' + files.fileUpload.originalFilename;
-          gambar.push(newPath);
+    const form = new formidable.IncomingForm();
+    form.parse(req, (err, fields, files) => {
 
-          mv(oldPath, newPath, function (err) {
-          if (err) { console.log(err); }
+        const oldPath = files.fileUpload.filepath;
 
-              console.log('file uploaded successfully');
-              return res.end("file uploaded successfully");
-          });
-          res.redirect('/admin');
+        const newPath = __dirname + '/public/upload/' + files.fileUpload.originalFilename;
+        gambar.push('./upload/' + files.fileUpload.originalFilename);
+
+        mv(oldPath, newPath, function (err) {
+            if (err) {
+                console.log(err);
+            }
+
+            console.log('file uploaded successfully');
+            return res.end("file uploaded successfully");
+        });
+
+        res.redirect('/admin');
 
     });
 
 });
 
-app.get('/login', (req,res) => {
+app.post('/hapusGambar1', (req, res) => {
+    if (user_ != user && pass_ != pass) {
+        return res.send('<h1>User Name atau Kata Sandi Salah</h1><form action="/login" method="get"><button type="submit">Kembali ke Halaman Login</button></form>');
+    }
+
+    const hapus1 = req.body.btnHapus1;
+
+    gambar.splice(hapus1, 1);
+    res.redirect('/admin');
+})
+
+app.post('/hapusGambar2', (req, res) => {
+    if (user_ != user && pass_ != pass) {
+        return res.send('<h1>User Name atau Kata Sandi Salah</h1><form action="/login" method="get"><button type="submit">Kembali ke Halaman Login</button></form>');
+    }
+
+    const hapus2 = req.body.btnHapus2;
+
+    gambar.splice(hapus2, 1);
+    res.redirect('/admin');
+})
+
+app.get('/login', (req, res) => {
     res.render('./login/login.ejs', {
         userName: '',
         password: ''
@@ -173,7 +211,7 @@ app.post('/login', (req, res) => {
     res.redirect('/admin');
 })
 
-app.post('/logout', (req,res) => {
+app.post('/logout', (req, res) => {
     user_ = '';
     pass_ = '';
 

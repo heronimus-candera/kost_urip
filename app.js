@@ -17,7 +17,7 @@ const kontak = {
     whatsApp: '081390608263',
     telepon: '081390608263'
 };
-const gambar = [];
+const gambar = ["./upload/WhatsApp Image 2023-05-10 at 18.09.35.jpeg"];
 
 const user = 'admin';
 const pass = '1234567';

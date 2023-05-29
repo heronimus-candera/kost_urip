@@ -162,7 +162,6 @@ app.post('/gambar', (req, res, next) => {
             }
 
             console.log('file uploaded successfully');
-            return res.end("file uploaded successfully");
         });
 
         res.redirect('/admin');
